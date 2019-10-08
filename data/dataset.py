@@ -5,23 +5,21 @@ from torch.utils import data
 from torch.utils.data import DataLoader
 from torchvision import transforms as T
 import matplotlib.pyplot as plt
-import sys
-
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
 
 class Hand(data.Dataset):
     
-    def __init__(self, root, transforms=None, train=True):
+    def __init__(self, transforms=None, train=True):
         '''
         Get images, divide into train/val set
         '''
 
         self.train = train
-        self.images_root = root
+        self.images_root = os.path.dirname(os.path.realpath(__file__))
 
         self._read_txt_file()
 
         print(" os.getcwd()", os.getcwd())
+        print(" real cwd()",os.path.dirname(os.path.realpath(__file__)))
         if transforms is None:
 	    # mean(R,G,B) std(R,G,B),Normalized_image=(image-mean)/std
             normalize = T.Normalize(mean=[0.485, 0.456, 0.406],
@@ -79,8 +77,8 @@ class Hand(data.Dataset):
         return len(self.images_path)
 
 if __name__ == '__main__':
-    data_root = os.getcwd()
-    train_data = Hand(data_root, transforms=None, train=True)
+
+    train_data = Hand(transforms=None, train=True)
     batch_size = 5
     train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=0)
     for images, labels in train_dataloader:
