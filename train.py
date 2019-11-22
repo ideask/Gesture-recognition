@@ -8,8 +8,7 @@ import torch
 from torch.utils.data import DataLoader
 from tensorboardX import SummaryWriter
 from dataloader.dataloader import HandDataloader
-from model.resnet import resnet18
-from utils.average import AverageMeter
+from model.resnet import resnet18, resnet34, resnet50, resnet101, resnet152
 from torch import nn
 from torchnet import meter
 # from utils.parallel import DataParallelModel, DataParallelCriterion
@@ -101,6 +100,10 @@ def main(args):
 
     # Step 2: model, criterion, optimizer, scheduler
     backbone = resnet18(num_classes=6).cuda()
+    # backbone = resnet34(num_classes=6).cuda()
+    # backbone = resnet50(num_classes=6).cuda()
+    # backbone = resnet101(num_classes=6).cuda()
+    # backbone = resnet152(num_classes=6).cuda()
 
     if args.resume != '':
         logging.info('Load the checkpoint:{}'.format(args.resume))
@@ -202,7 +205,7 @@ def parse_args():
         default='./data/test.txt',
         type=str,
         metavar='PATH')
-    parser.add_argument('--train_batchsize', default=64, type=int)
+    parser.add_argument('--train_batchsize', default=128, type=int)
     parser.add_argument('--val_batchsize', default=8, type=int)
     args = parser.parse_args()
     return args

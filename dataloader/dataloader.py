@@ -23,7 +23,7 @@ class HandDataloader(data.Dataset):
             if not train:
                 self.transforms = T.Compose([
                     T.Resize(224),
-                    # T.CenterCrop(224),
+                    T.CenterCrop(224),
                     T.ToTensor(),
                     normalize
                 ])
